@@ -1,0 +1,21 @@
+body {
+  background-color: black;
+}
+.container {
+  width: 90%;
+  margin: 60px auto;
+  border: 1px white solid;
+}
+.green {
+  stroke: white;
+  fill: green;
+}
+.white {
+  stroke: green;
+  fill: white;
+}
+svg {
+  display: block;
+  margin: 8px auto;
+  height: 80px;
+}

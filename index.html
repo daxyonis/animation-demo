@@ -6,29 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demo Animation Tirage</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
-    <style>
-      body {
-        background-color: black;
-      }
-      .container {
-        width: 90%;
-        margin: 60px auto;
-        border: 1px white solid;
-      }
-      .green {
-        stroke: white;
-        fill: green;
-      }
-      .white {
-        stroke: green;
-        fill: white;
-      }
-      svg {
-        display: block;
-        margin: 8px auto;
-        height: 80px;
-      }
-    </style>
+    <link rel="stylesheet" href="./main.css" />
   </head>
   <body>
     <div class="container">
@@ -40,7 +18,7 @@
         <rect y="5" width="300" height="70" class="green"></rect>
         <text x="100" y="50" style="fill: #fff; font-size: 48px">BBB</text>
       </svg>
-      <!--<svg class="name">
+      <svg class="name">
         <rect y="5" width="300" height="70" class="green"></rect>
         <text x="100" y="50" style="fill: #fff; font-size: 48px">CCC</text>
       </svg>
@@ -56,7 +34,7 @@
         <rect y="5" width="300" height="70" class="green"></rect>
         <text x="100" y="50" style="fill: #fff; font-size: 48px">FFF</text>
       </svg>
-       <svg class="name">
+      <svg class="name">
         <rect y="5" width="300" height="70" class="green"></rect>
         <text x="100" y="50" style="fill: #fff; font-size: 48px">GGG</text>
       </svg>
@@ -71,7 +49,8 @@
       <svg class="name">
         <rect y="5" width="300" height="70" class="green"></rect>
         <text x="100" y="50" style="fill: #fff; font-size: 48px">JJJ</text>
-      </svg> -->
+      </svg>
+      -->
     </div>
 
     <script>
@@ -79,12 +58,18 @@
       let t1 = gsap.timeline();
 
       document.querySelectorAll('.name').forEach((element) => {
-        t1.to(
+        let yPos = element.getBoundingClientRect().top;
+        t1.fromTo(
           element,
+          {
+            y: 500,
+            ease: 'none',
+            duration: 5,
+          },
           {
             y: -500,
             ease: 'none',
-            duration: 3,
+            duration: 5,
             onUpdate: updateHandler,
           },
           0
@@ -99,21 +84,19 @@
           gsap.killTweensOf(topElement);
           // start to make it disappear
           console.log('Fade into darkness, you !');
-          gsap
-            .timeline()
-            .to(topElement, { opacity: 0, duration: 0.1 })
-            .to(topElement, {
-              y: 500,
-              ease: 'none',
-              duration: 0.1,
-            })
-            .to(topElement, { opacity: 1, duration: 0.1 })
-            .to(topElement, {
-              y: -500,
-              ease: 'none',
-              duration: 3,
-              onUpdate: updateHandler,
-            });
+          gsap.timeline().to(topElement, { opacity: 0, duration: 0.1 });
+          // .to(topElement, {
+          //   y: 500,
+          //   ease: 'none',
+          //   duration: 0.1,
+          // })
+          // .to(topElement, { opacity: 1, duration: 0.1 })
+          // .to(topElement, {
+          //   y: -500,
+          //   ease: 'none',
+          //   duration: 3,
+          //   onUpdate: updateHandler,
+          // });
         }
       }
     </script>
