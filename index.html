@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Animation Tirage</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js>"></script>
+    <style>
+      body {
+        background-color: black;
+      }
+      .container {
+        width: 90%;
+        margin: 60px auto;
+        border: 1px white solid;
+      }
+      .green {
+        stroke: white;
+        fill: green;
+      }
+      .white {
+        stroke: green;
+        fill: white;
+      }
+      svg {
+        display: block;
+        margin: 8px auto;
+        height: 80px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <svg class="name">
+        <rect y="5" width="300" height="70" class="green"></rect>
+        <text x="100" y="50" style="fill: #fff; font-size: 48px">AAA</text>
+      </svg>
+      <svg class="name">
+        <rect y="5" width="300" height="70" class="green"></rect>
+        <text x="100" y="50" style="fill: #fff; font-size: 48px">BBB</text>
+      </svg>
+      <svg class="name">
+        <rect y="5" width="300" height="70" class="green"></rect>
+        <text x="100" y="50" style="fill: #fff; font-size: 48px">CCC</text>
+      </svg>
+      <svg class="name">
+        <rect y="5" width="300" height="70" class="green"></rect>
+        <text x="100" y="50" style="fill: #fff; font-size: 48px">DDD</text>
+      </svg>
+      <svg class="name">
+        <rect y="5" width="300" height="70" class="green"></rect>
+        <text x="100" y="50" style="fill: #fff; font-size: 48px">EEE</text>
+      </svg>
+      <svg class="name">
+        <rect y="5" width="300" height="70" class="green"></rect>
+        <text x="100" y="50" style="fill: #fff; font-size: 48px">FFF</text>
+      </svg>
+      <!-- <svg class="name">
+        <rect y="5" width="300" height="70" class="green"></rect>
+        <text x="100" y="50" style="fill: #fff; font-size: 48px">GGG</text>
+      </svg>
+      <svg class="name">
+        <rect y="5" width="300" height="70" class="green"></rect>
+        <text x="100" y="50" style="fill: #fff; font-size: 48px">HHH</text>
+      </svg>
+      <svg class="name">
+        <rect y="5" width="300" height="70" class="green"></rect>
+        <text x="100" y="50" style="fill: #fff; font-size: 48px">III</text>
+      </svg>
+      <svg class="name">
+        <rect y="5" width="300" height="70" class="green"></rect>
+        <text x="100" y="50" style="fill: #fff; font-size: 48px">JJJ</text>
+      </svg> -->
+    </div>
+
+    <script>
+      const MIN_Y = 60.0;
+      let tween1 = gsap.to(
+        '.name',
+        { duration: 5, ease: 'power2.in', y: -600 },
+        0
+      );
+      tween1.eventCallback('onUpdate', updateHandler);
+
+      function updateHandler() {
+        let topElement = this._targets.find(
+          (element) => element.getBoundingClientRect().top < MIN_Y
+        );
+        if (topElement) {
+          topElement = this._targets.shift();
+          // start to make it disappear
+          console.log('Fade into darkness, you !');
+          const numTargets = this._targets.length;
+          const yPosition =
+            this._targets[numTargets - 1].getBoundingClientRect().bottom;
+          gsap
+            .timeline()
+            .to(topElement, { opacity: 0, duration: 1 })
+            .to(topElement, { y: yPosition - 60.0, opacity: 1, duration: 0.1 })
+            .to(topElement, {
+              y: -600,
+              ease: 'power2.in',
+              duration: 5,
+              onUpdate: updateHandler,
+            });
+        }
+      }
+    </script>
+  </body>
+</html>
