@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demo Animation Tirage</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js>"></script>
     <style>
       body {
         background-color: black;
@@ -41,7 +40,7 @@
         <rect y="5" width="300" height="70" class="green"></rect>
         <text x="100" y="50" style="fill: #fff; font-size: 48px">BBB</text>
       </svg>
-      <svg class="name">
+      <!--<svg class="name">
         <rect y="5" width="300" height="70" class="green"></rect>
         <text x="100" y="50" style="fill: #fff; font-size: 48px">CCC</text>
       </svg>
@@ -57,7 +56,7 @@
         <rect y="5" width="300" height="70" class="green"></rect>
         <text x="100" y="50" style="fill: #fff; font-size: 48px">FFF</text>
       </svg>
-      <!-- <svg class="name">
+       <svg class="name">
         <rect y="5" width="300" height="70" class="green"></rect>
         <text x="100" y="50" style="fill: #fff; font-size: 48px">GGG</text>
       </svg>
@@ -77,32 +76,42 @@
 
     <script>
       const MIN_Y = 60.0;
-      let tween1 = gsap.to(
-        '.name',
-        { duration: 5, ease: 'power2.in', y: -600 },
-        0
-      );
-      tween1.eventCallback('onUpdate', updateHandler);
+      let t1 = gsap.timeline();
+
+      document.querySelectorAll('.name').forEach((element) => {
+        t1.to(
+          element,
+          {
+            y: -500,
+            ease: 'none',
+            duration: 3,
+            onUpdate: updateHandler,
+          },
+          0
+        );
+      });
 
       function updateHandler() {
         let topElement = this._targets.find(
           (element) => element.getBoundingClientRect().top < MIN_Y
         );
         if (topElement) {
-          topElement = this._targets.shift();
+          gsap.killTweensOf(topElement);
           // start to make it disappear
           console.log('Fade into darkness, you !');
-          const numTargets = this._targets.length;
-          const yPosition =
-            this._targets[numTargets - 1].getBoundingClientRect().bottom;
           gsap
             .timeline()
-            .to(topElement, { opacity: 0, duration: 1 })
-            .to(topElement, { y: yPosition - 60.0, opacity: 1, duration: 0.1 })
+            .to(topElement, { opacity: 0, duration: 0.1 })
             .to(topElement, {
-              y: -600,
-              ease: 'power2.in',
-              duration: 5,
+              y: 500,
+              ease: 'none',
+              duration: 0.1,
+            })
+            .to(topElement, { opacity: 1, duration: 0.1 })
+            .to(topElement, {
+              y: -500,
+              ease: 'none',
+              duration: 3,
               onUpdate: updateHandler,
             });
         }
